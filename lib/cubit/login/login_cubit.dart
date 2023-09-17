@@ -41,8 +41,8 @@ class LoginCubit extends Cubit<LoginStates> {
 
       if (response.statusCode == 202 || response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
-        authToken = jsonResponse['token'];
-
+        authToken = jsonResponse['data']['token'];
+        print(authToken);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => HomeScreen()),
