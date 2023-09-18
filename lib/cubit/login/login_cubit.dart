@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../constants/constants.dart';
 import 'package:http/http.dart' as http;
 
+import '../../screens/home_screens/choices.dart';
 import '../../screens/home_screens/home_screen.dart';
 import 'login_states.dart';
 
@@ -26,26 +27,26 @@ class LoginCubit extends Cubit<LoginStates> {
     LoginCubit cubit = LoginCubit.get(context);
     String email = cubit.loginEmailController.text;
     String password = cubit.loginPasswordController.text;
-
+    print('object3');
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/auth/login'),
+        Uri.parse('${baseUrl}/auth/login'),
         body: json.encode({
-          'email': email,
-          'password': password,
+          'email': 'admin@admin.com',//email,
+          'password': 'password', // password,
         }),
         headers: {
-          'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
       );
-
+      print(response.statusCode);
       if (response.statusCode == 202 || response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
         authToken = jsonResponse['data']['token'];
         print(authToken);
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
+          MaterialPageRoute(builder: (context) => ChoicesScreen()),
         );
         loginEmailController.clear();
         loginPasswordController.clear();
@@ -71,10 +72,37 @@ class LoginCubit extends Cubit<LoginStates> {
           ),
         );
         print(response.statusCode);
-      } else {
+      }
+          else if (response.statusCode == 422){
+            final jsonResponse = json.decode(response.body);
+            print(response.body);
+            final managerIdMessage = jsonResponse['message'];
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: Text('Error'),
+                content: Text(managerIdMessage),
+                actions: [
+                  TextButton(
+                    child: Text(
+                      'OK',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () => Navigator.pop(context),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(defaultColor),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+      else {
+
         print(response.statusCode);
       }
     } catch (error) {
+
       print(error);
     }
   }

@@ -95,7 +95,9 @@ class LoginScreen extends StatelessWidget {
                 defaultButton(
                     text: 'LOGIN',
                     onpressed: () {
+                      print('object');
                       if (cubit.loginFormKey.currentState!.validate()) {
+                        print('object2');
                         cubit.loginUser(context);
                       }
                     })

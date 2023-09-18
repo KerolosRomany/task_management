@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 var defaultColor = Colors.deepPurple;
-final baseUrl = 'https://tasksapp.integration25.com/api';
+const baseUrl = 'https://tasksapp.integration25.com/api';
 String? authToken;
 
 

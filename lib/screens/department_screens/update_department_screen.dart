@@ -24,9 +24,9 @@ class UpdateDepartmentScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Update Department!',
+                    'Update ${cubit.selectedModel.name} Department!',
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 22,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
